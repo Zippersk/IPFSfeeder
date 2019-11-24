@@ -64,9 +64,12 @@ let _deserialize = obj => transform(obj, (result, value, key) => {
  * @returns {BitcoinBlock}
  */
 const deserialize = (buffer) => {
-
   let obj = JSON.parse(buffer.toString())
-  return _deserialize({ value: obj }).value
+  let deserializedObject = _deserialize({ value: obj }).value
+
+  deserializedObject.toJSON = () => deserializedObject
+
+  return deserializedObject
 }
 
 /**
@@ -78,7 +81,7 @@ const deserialize = (buffer) => {
  * @param {string} [UserOptions.hashAlg] - Defaults to the defaultHashAlg of the format
  * @returns {Promise.<CID>}
  */
-const cid = async (buffer, userOptions) => {
+const cid = async (buffer) => {
   let hash = JSON.parse(buffer.toString()).hash
   return hashToCid(hash)
 }

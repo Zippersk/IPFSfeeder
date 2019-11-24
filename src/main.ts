@@ -1,4 +1,4 @@
-import { IPFSconnector } from "./IPFS/IPFS"
+import { IPFSconnector } from "../IPFScommon/IPFS"
 import { BlockBookApi } from './BlockBook/blockbookApi'
 
 async function runAsync() {
@@ -6,15 +6,12 @@ async function runAsync() {
     try {
         var txs = BlockBookApi.GetTransactions()
         for (const tx of txs) {
-            console.log(await ipfsInstance.dagPutAsync(tx))
+            console.log((await ipfsInstance.dagPutAsync(tx)).toString())
         }
     } catch (error) {
+        ipfsInstance.shutDown()
         throw error
     }
-    finally {
-        ipfsInstance.shutDown()
-    }
-
 }
 
 runAsync()

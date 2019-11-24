@@ -1,10 +1,10 @@
 import IPFS from "typestub-ipfs";
-const formatUtils = require('../IPLD/formats/util')
+const os = require('os')
 
 export class IPFSconnector {
     private static instance: IPFSconnector;
     private node: IPFS;
-    private constructor() {
+    private constructor() { 
         // do something construct...
     }
     static async getInstanceAsync() {
@@ -18,16 +18,10 @@ export class IPFSconnector {
     }
 
     public async dagPutAsync(data: any) {
-        let test1 = formatUtils.hashToCid(data.hash)
-
-        let test2 = await this.node.dag.put(data, {
+        return await this.node.dag.put(data, {
             format: 297,
             hashAlg: 'sha2-256'
         })
-
-        let test3 = await this.node.dag.get(test1)
-        console.log("succes")
-        return test
     }
 
     public shutDown() {
@@ -42,14 +36,16 @@ export class IPFSconnector {
 
 
 const ipfsConfig = {
+    repo: os.homedir() + '/.IPFSfeeder',
     config: {
-        Addresses: {
-            Swarm: [
-                "/ip4/0.0.0.0/tcp/14002",
-                "/ip4/127.0.0.1/tcp/14003/ws",
-                "/dns4/wrtc-star.discovery.libp2p.io/tcp/443/wss/p2p-webrtc-star"
-            ]
-        }
+      Addresses: {
+        Swarm: [
+          '/ip4/0.0.0.0/tcp/14012',
+          '/ip4/127.0.0.1/tcp/14013/ws'
+        ],
+        API: '/ip4/127.0.0.1/tcp/5012',
+        Gateway: '/ip4/127.0.0.1/tcp/9191'
+      }
     },
     ipld: {
         formats: [ require('../IPLD/formats'), require('ipld-dag-pb')]
