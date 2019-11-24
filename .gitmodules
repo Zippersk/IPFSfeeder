@@ -1,6 +1,3 @@
-[submodule "IPFScommon"]
-	path = src/IPFScommon
-	url = https://github.com/Zippersk/IPFScommon.git
 [submodule "src/Common"]
 	path = src/Common
 	url = https://github.com/Zippersk/IPFScommon.git

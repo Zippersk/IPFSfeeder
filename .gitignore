@@ -1,29 +1,35 @@
-# Logs
-logs
+lib-cov
+*.seed
 *.log
-npm-debug.log*
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
 
-# Dependencies
-node_modules/
+pids
+logs
+results
+tmp
 
-# Coverage
-coverage
+# API keys and secrets
+.env
 
-# Transpiled files
-build/
+# Dependency directory
+node_modules
+bower_components
 
-# VS Code
-.vscode
-!.vscode/tasks.js
+# Editors
+.idea
+*.iml
 
-# JetBrains IDEs
-.idea/
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Misc
+# OS metadata
 .DS_Store
+Thumbs.db
+
+# Ignore built ts files
+dist/**/*
+
+# ignore yarn.lock
+yarn.lock

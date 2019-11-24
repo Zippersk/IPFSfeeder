@@ -1,4 +1,4 @@
-import { IPFSconnector } from "./Common/IPFS"
+import { IPFSconnector } from "./Common/IPFS/IPFSConnector"
 import { BlockBookApi } from './BlockBook/blockbookApi'
 
 async function runAsync() {

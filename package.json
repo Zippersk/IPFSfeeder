@@ -6,7 +6,9 @@
     "node": ">= 12.13 <13"
   },
   "devDependencies": {
+    "@types/fast-json-stable-stringify": "^2.0.0",
     "@types/jest": "^24.0.21",
+    "@types/lodash.transform": "^4.6.6",
     "@types/node": "^12.12.5",
     "jest": "~24.9.0",
     "prettier": "~1.18.2",
@@ -19,10 +21,10 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "clean": "rimraf coverage build tmp",
-    "build": "tsc -p tsconfig.release.json",
-    "build:watch": "tsc -w -p tsconfig.release.json",
-    "lint": "tslint -t stylish --project \"tsconfig.json\"",
+    "clean": "rimraf coverage dist tmp",
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -w -p tsconfig.json",
+    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
@@ -43,6 +45,7 @@
     "multihashes": "~0.4.14",
     "multihashing-async": "^0.8.0",
     "tslib": "~1.10.0",
-    "typestub-ipfs": "^0.23.14"
+    "typestub-ipfs": "^0.23.14",
+    "winston": "^3.2.1"
   }
 }
