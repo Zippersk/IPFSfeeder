@@ -2,5 +2,6 @@
     "eslint.autoFixOnSave": true,
     "eslint.alwaysShowStatus": true,
     "eslint.lintTask.enable": true,
-    "eslint.lintTask.options": "tsc --noEmit && eslint \\\"**/*.{js,ts}\\\" --quiet --fix"
+    "eslint.lintTask.options": "tsc --noEmit && eslint \\\"**/*.{js,ts}\\\" --quiet --fix",
+    "eslint.enable": true
 }

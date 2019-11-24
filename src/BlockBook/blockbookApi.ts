@@ -1,4 +1,4 @@
-export abstract class BlockBookApi {
+export default abstract class BlockBookApi {
     public static GetTransactions() {
         return transactions
     }
