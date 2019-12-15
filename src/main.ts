@@ -21,12 +21,18 @@ async function runAsync() {
 
     IPFSconnector.setConfig(config)
     var ipfsInstance = await IPFSconnector.getInstanceAsync()
+    const index = {}
     try {
-        var txs = BlockBookApi.GetTransactions()
-        for (const tx of txs) {
-            logger.info((await DAG.PutAsync(tx)).toString())
-            logger.info(await DAG.GetAsync(tx.hash, null))
+        var blocks = BlockBookApi.GetBlocks()
+        for (const block of blocks) {
+                const blockCid = await DAG.PutAsync(block);
+                index[block.hash] = blockCid.toString();
+                index[block.height] = blockCid.toString();
+                for (const [i, tx] of block["txs"].entries()) {
+                    index[tx.txid] = blockCid + "/txs/" + i;
+                }
         }
+        await DAG.PutAsync(index);
     } catch (error) {
         ipfsInstance.shutDown()
         throw error
