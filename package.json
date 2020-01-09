@@ -31,6 +31,7 @@
   "author": "Matúš Múčka <matus@mucka.sk>",
   "license": "Apache-2.0",
   "dependencies": {
+    "@ipld/dag-json": "^2.0.7",
     "bitcoinjs-lib": "^5.0.0",
     "cids": "^0.7.1",
     "dotenv": "^8.2.0",

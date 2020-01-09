@@ -1,18 +1,31 @@
 import IPFSconnector from "./Common/IPFS/IPFSConnector"
-import BlockBookApi from './BlockBook/blockbookApi'
+import Blocks from './BlockBook/BlockGetter'
 import ipfsDefaultConfig from './Common/IPFS/ipfsDefaultConfig'
 import os from 'os';
-import DAG from './Common/IPFS/DAG';
 import logger from './Common/logger';
+import HashtableIndex from "./Indexes/Hashtable";
+import ReverseLookup from "./Indexes/ReverseLookup";
+import BTreeIndex from "./Indexes/BTree";
 
 async function runAsync() {
+    IPFScreate();
+    const blockIterator = new Blocks()
+    const blocksHashtable = new BTreeIndex("blockByHash", blockIterator, "height")
+    const ipnsRecord = await blocksHashtable.Create()
+    logger.info(ipnsRecord)
+    logger.info("finished");
+    // (await IPFSconnector.getInstanceAsync()).shutDown()
+}
+
+
+async function IPFScreate() {
     let config = ipfsDefaultConfig
     config.repo = os.homedir() + '/.ipfsFeeder'
     config.config = {
         Addresses: {
             Swarm: [
-                '/ip4/0.0.0.0/tcp/14012',
-                '/ip4/127.0.0.1/tcp/14013/ws'
+                '/ip4/0.0.0.0/tcp/14030',
+                '/ip4/127.0.0.1/tcp/14031/ws'
             ],
             API: '/ip4/127.0.0.1/tcp/5012',
             Gateway: '/ip4/127.0.0.1/tcp/9191'
@@ -20,25 +33,6 @@ async function runAsync() {
     }
 
     IPFSconnector.setConfig(config)
-    var ipfsInstance = await IPFSconnector.getInstanceAsync()
-    const index = {}
-    try {
-        var blocks = BlockBookApi.GetBlocks()
-        for (const block of blocks) {
-                const blockCid = await DAG.PutAsync(block);
-                index[block.hash] = blockCid.toString();
-                index[block.height] = blockCid.toString();
-                for (const [i, tx] of block["txs"].entries()) {
-                    index[tx.txid] = blockCid + "/txs/" + i;
-                }
-        }
-        await DAG.PutAsync(index);
-    } catch (error) {
-        ipfsInstance.shutDown()
-        throw error
-    }
-
-
 }
 
 runAsync()
